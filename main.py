@@ -1,12 +1,11 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+# 11111111111111111111111
 
 
-fun = []
+import textwrap
+
+
 M = 22
-
+fun = [0] * (M + 1)
 
 def get_file(name):
     f = open(name, 'r')
@@ -60,17 +59,26 @@ def count_bits(msg):
 
 def encode(msg, k):
     enc_msg = ""
+    key_char_list = textwrap.fill(k, 8).split("\n")
     for i in range(len(msg)):
-        val = ord(msg[i]) ^ int(k[i * 8: i * 8 + 8], base=2)
+        val = ord(msg[i]) ^ int(key_char_list[i], base=2)
         enc_msg += chr(val)
         print(val)
 
     return enc_msg
 
 
+def decode(enc_msg, k):
+    msg = ""
+    key_char_list = textwrap.fill(k, 8).split("\n")
+    for i in range(len(enc_msg)):
+        msg += chr(ord(enc_msg[i]) ^ int(key_char_list[i], base=2))
+
+    return msg
+
+
 # MAIN
 # x^23 + x^5 + 1
-fun = [0] * (M + 1)
 fun[22] = 1
 fun[4] = 1
 fun[0] = 1
@@ -85,3 +93,5 @@ key = create_key(init_state, count_bits(message))
 print(key)
 encoded_message = encode(message, key)
 print(encoded_message)
+original_message = decode(encoded_message, key)
+print(original_message)
