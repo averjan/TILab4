@@ -4,8 +4,14 @@
 import textwrap
 
 
+# index of high bit of register
 M = 22
 fun = [0] * (M + 1)
+
+
+def get_bin(s):
+    return int(s, base=2)
+
 
 def get_file(name):
     f = open(name, 'r')
@@ -22,7 +28,7 @@ def is_correct_init_state(st):
 
 
 def find_xor_sum(s):
-    bits_array = [int(c, base=2) for c in s]
+    bits_array = [get_bin(c) for c in s]
     xor_sum = (bits_array[0] * fun[0]) ^ (bits_array[1] * fun[1])
     for i in range(2, len(s)):
         xor_sum ^= bits_array[i] * fun[i]
@@ -61,7 +67,7 @@ def encode(msg, k):
     enc_msg = ""
     key_char_list = textwrap.fill(k, 8).split("\n")
     for i in range(len(msg)):
-        val = ord(msg[i]) ^ int(key_char_list[i], base=2)
+        val = ord(msg[i]) ^ get_bin(key_char_list[i])
         enc_msg += chr(val)
         print(val)
 
@@ -72,7 +78,7 @@ def decode(enc_msg, k):
     msg = ""
     key_char_list = textwrap.fill(k, 8).split("\n")
     for i in range(len(enc_msg)):
-        msg += chr(ord(enc_msg[i]) ^ int(key_char_list[i], base=2))
+        msg += chr(ord(enc_msg[i]) ^ get_bin(key_char_list[i]))
 
     return msg
 
